@@ -1,5 +1,6 @@
 node-pterodactyl
 ================
+![node-pterodactyl][logo]
 
 Fractal stack-over-time Visualizer
 
@@ -31,3 +32,5 @@ var stackHistory = [
 
 pterodactyl.draw(stackHistory)
 ```
+
+[logo]: https://github.com/kumavis/node-pterodactyl/raw/master/www/logo.png "node-pterodactyl logo"
