@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "beefy index.js --open --live"
+    "start": "open http://localhost:9000; beefy index.js --live -p 9000"
   },
   "author": "",
   "license": "BSD-2-Clause",
