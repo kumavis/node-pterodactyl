@@ -1,7 +1,7 @@
 //deps
 var d3 = require('d3')
 var copyHash = require('hashish').copy
-var enableSVGPan = require('./SVGPan.js')
+var enableSVGPan = require('./lib/SVGPan.js')
 
 // constants
 var pi = Math.PI;
