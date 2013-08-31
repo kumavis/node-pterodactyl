@@ -12,7 +12,7 @@ pterodactyl can display vast amounts of information in a finite amount of space.
 
 ![screen shot][ss0]
 
-### try it out
+### hack about
 
 ```bash
 git clone git@github.com:kumavis/node-pterodactyl.git
@@ -22,6 +22,8 @@ npm start
 ```
 
 ### examples
+
+##### some random object
 
 ```javascript
 var pterodactyl = require('pterodactyl')
@@ -41,8 +43,10 @@ pterodactyl.drawHash({
   y: 500,
 })
 ```
+<a class="requirebin-link" target="_blank" href="http://requirebin.com/?gist=6396863"><img src="http://requirebin.com/badge.png"></a>
 ![screen shot][ss2]
 
+##### esprima syntax tree
 
 ```javascript
 var pterodactyl = require('pterodactyl')
@@ -57,8 +61,8 @@ pterodactyl.drawHash({
   y: 500,
 })
 ```
+<a class="requirebin-link" target="_blank" href="http://requirebin.com/?gist=6396884"><img src="http://requirebin.com/badge.png"></a>
 ![screen shot][ss1]
-
 
 
 [logo]: https://github.com/kumavis/node-pterodactyl/raw/master/www/logo.png "node-pterodactyl logo"
