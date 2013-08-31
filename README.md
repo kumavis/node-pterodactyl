@@ -2,10 +2,9 @@ node-pterodactyl
 ================
 ![node-pterodactyl][logo]
 
-Fractal tree Visualizer
-
 ### wut?
 
+Pterodactyl is a fractal tree visualizer.
 Display an arbitrary javascript object.
 By leveraging fractal geometry and vector graphics,
 pterodactyl can display vast amounts of information in a finite amount of space.
