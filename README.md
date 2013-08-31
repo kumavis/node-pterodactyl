@@ -31,21 +31,6 @@ var obj = {
   c: 2,
 }
 
-pterodactyl.drawHash(obj)
-```
-
-```javascript
-var pterodactyl = require('pterodactyl')
-
-var obj = {
-  a: 1,
-  b: {
-    d: 3,
-    e: 4,
-  },
-  c: 2,
-}
-
 pterodactyl.drawHash({
   target: obj,
   x: 500,
