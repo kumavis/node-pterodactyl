@@ -10,6 +10,7 @@
   "author": "",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "d3": "~3.3.2"
+    "d3": "~3.3.2",
+    "hashish": "0.0.4"
   }
 }
