@@ -4,14 +4,20 @@ node-pterodactyl
 
 Fractal tree Visualizer
 
-### wut
+### wut?
 
 Display an arbitrary javascript object.
 By leveraging fractal geometry and vector graphics,
 pterodactyl can display vast amounts of information in a finite amount of space.
 
 
-### Examples
+### install
+
+```bash
+npm install pterodactyl
+```
+
+### examples
 
 ```javascript
 var pterodactyl = require('pterodactyl')
@@ -47,7 +53,7 @@ pterodactyl.drawHash({
 })
 ```
 
-```
+```javascript
 var pterodactyl = require('pterodactyl')
 var esprima = require('esprima')
 
