@@ -17,26 +17,6 @@ enableSVGPan(document.getElementById('vizContainer'))
 
 var RecArc = window.RecArc = module.exports = {
 
-  // sample: function() {
-  //   var index = 0,
-  //       circles = 8,
-  //       circlesPerRow = 4,
-  //       complexityStep = 1,
-  //       radius = 120,
-  //       spacing = radius*3
-  //   while (index < circles) {
-  //     this.drawSprout({
-  //       depth: 4,
-  //       x: spacing*(index%circlesPerRow)+spacing/2,
-  //       y: spacing*Math.floor(index/circlesPerRow)+spacing/1.5,
-  //       segments: index*complexityStep,
-  //       radius: radius,
-  //       startAngle: 0,
-  //     })
-  //     index++;
-  //   }
-  // },
-
   drawHash: function(params) {
     this.drawChildren({
       depth: 0,
