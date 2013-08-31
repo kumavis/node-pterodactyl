@@ -4,70 +4,69 @@ var copyHash = require('hashish').copy
 var enableSVGPan = require('./SVGPan.js')
 
 // constants
+var pi = Math.PI;
+
+// tools
+function isObject(obj) { return typeof obj === 'object' }
+
+// the vizualization container and viewport
 var vis = d3.select('body').append('svg').attr('id','vizContainer')
-                           .append('g').attr('id','viewport'),
-    pi = Math.PI;
+                           .append('g').attr('id','viewport')
 
 enableSVGPan(document.getElementById('vizContainer'))
 
 var RecArc = window.RecArc = module.exports = {
 
-  start: function() {
-      this.draw()
+  // sample: function() {
+  //   var index = 0,
+  //       circles = 8,
+  //       circlesPerRow = 4,
+  //       complexityStep = 1,
+  //       radius = 120,
+  //       spacing = radius*3
+  //   while (index < circles) {
+  //     this.drawSprout({
+  //       depth: 4,
+  //       x: spacing*(index%circlesPerRow)+spacing/2,
+  //       y: spacing*Math.floor(index/circlesPerRow)+spacing/1.5,
+  //       segments: index*complexityStep,
+  //       radius: radius,
+  //       startAngle: 0,
+  //     })
+  //     index++;
+  //   }
+  // },
+
+  drawHash: function(params) {
+    this.drawChildren({
+      depth: 0,
+      x: params.x,
+      y: params.y,
+      target: params.target,
+      radius: 250,
+      startAngle: 0,
+      label: 'obj',
+    })
   },
 
-  draw: function() {
-    var index = 0,
-        circles = 8,
-        circlesPerRow = 4,
-        complexityStep = 1,
-        radius = 120,
-        spacing = radius*3
-    while (index < circles) {
-      this.drawSprout({
-        depth: 4,
-        x: spacing*(index%circlesPerRow)+spacing/2,
-        y: spacing*Math.floor(index/circlesPerRow)+spacing/1.5,
-        segments: index*complexityStep,
-        radius: radius,
-        startAngle: 0,
-      })
-      index++;
-    }
-  },
-
-  drawSprout: function(params) {
+  drawChildren: function(params) {(function(){
     var self = this,
         index = 0,
-        segments = params.segments+1, //+1 to give space for root
+        childKeys = isObject(params.target) ? Object.keys(params.target) : [],
+        sproutCount = childKeys.length+1, //+1 to give space for root
         outerDomainRadius = params.radius,
         coreDomainRadius = params.radius/3,
+        // zeta = Math.sin(2*pi/sproutCount),
+        maxChildRadius = (outerDomainRadius-coreDomainRadius)/2,
         //childRadius = params.radius/3,
-        zeta = Math.sin(2*pi/segments),
-        childRadius = (2*zeta*coreDomainRadius)/(2*(1-zeta)),
-        maxChildRadius = (outerDomainRadius-coreDomainRadius)/2
+        // childRadius = (2*zeta*coreDomainRadius)/(2*(1-zeta)),
+        childRadius = maxChildRadius
 
-    // apply max to radius
-    // if (childRadius>maxChildRadius) {
-    //   console.log('squeeze radius: '+segments)
-    //   childRadius = maxChildRadius 
-    // }
-    childRadius = maxChildRadius 
+    while (index < childKeys.length+1) {
+      var startAngle = index*(360/sproutCount)*(pi/180)+params.startAngle,
+          endAngle = (index+1-0.1)*(360/sproutCount)*(pi/180)+params.startAngle
 
-    // if (segments>6) {
-    //   childRadius = (2*zeta*coreDomainRadius)/(2*(1-zeta))
-    //   // var outerDomainRadius = (2*zeta*innerRadius)/(2*(1-zeta))
-    //   console.log('depth: '+params.depth)
-    //   console.log('segments: '+segments)
-    //   console.log('zeta: '+zeta)
-    //   console.log('outerDomainRadius: '+outerDomainRadius)
-    // }
-
-    while (index < segments) {
-      var startAngle = index*(360/segments)*(pi/180)+params.startAngle,
-          endAngle = (index+1-0.1)*(360/segments)*(pi/180)+params.startAngle
-
-      // // Draw Core
+      // Draw Core
       self.drawArc({
         x: params.x,
         y: params.y,
@@ -81,6 +80,14 @@ var RecArc = window.RecArc = module.exports = {
         x: params.x+(coreDomainRadius+childRadius)*Math.sin(startAngle),
         y: params.y+(coreDomainRadius+childRadius)*-Math.cos(startAngle),
       }
+
+      // Draw Label
+      self.drawLabel({
+        x: params.x,
+        y: params.y,
+        text: params.label,
+        size: childRadius/5,
+      })
       
       // Draw Stem
       var stem = {
@@ -115,19 +122,35 @@ var RecArc = window.RecArc = module.exports = {
       //   y: params.y,
       // }).style('fill', 'rgb(6,120,155)')
 
-      if (params.depth>0 && index!=0) {
+      if (index!=0) {        
         // modify params for child
-        var newParams = copyHash(params)
-        newParams.depth--
+        var newParams = copyHash(params),
+            childKey = childKeys[index-1],
+            child = params.target[childKey]
+
+        newParams.target = child
         newParams.x = childOrigin.x
         newParams.y = childOrigin.y
         newParams.radius = childRadius
         newParams.startAngle = startAngle-pi
+        newParams.label = childKey
+        if (!isObject(child)) newParams.label += ': '+child
         // draw child
-        self.drawSprout( newParams )
+        var childSvg = self.drawChildren( newParams )
       }
       index++;
     }
+  }).bind(this)()},
+
+  drawLabel: function(params) {
+    var label = vis.append('svg:text')
+      .attr('text-anchor', 'middle')
+      .attr('dy', '.35em')
+      .attr('x', params.x)
+      .attr('y', params.y)
+      .attr('font-size', params.size)
+      .text(params.text)
+    return label
   },
 
   drawLine: function(params) {
@@ -166,5 +189,3 @@ var RecArc = window.RecArc = module.exports = {
   },
 
 };
-
-RecArc.start()

@@ -228,7 +228,6 @@ function handleMouseMove(evt) {
 	var g = getRoot(svgDoc);
 
 	if(state == 'pan' && enablePan) {
-		debugger
 		// Pan mode
 		var p = getEventPoint(evt).matrixTransform(stateTf);
 

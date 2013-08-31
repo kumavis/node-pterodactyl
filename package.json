@@ -5,12 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "open http://localhost:9000; beefy index.js --live -p 9000"
+    "start": "open http://localhost:9000; beefy example.js --live -p 9000"
   },
   "author": "",
   "license": "BSD-2-Clause",
   "dependencies": {
     "d3": "~3.3.2",
     "hashish": "0.0.4"
+  },
+  "devDependencies": {
+    "esprima": "~1.0.4"
   }
 }
