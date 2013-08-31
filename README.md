@@ -14,9 +14,13 @@ pterodactyl can display vast amounts of information in a finite amount of space.
 
 ### hack about
 
+on [requireBin][esprima_example]
+
+or locally:
 ```bash
 git clone git@github.com:kumavis/node-pterodactyl.git
 cd node-pterodactyl
+npm install -g beefy
 npm install
 npm start
 ```
@@ -69,3 +73,4 @@ pterodactyl.drawHash({
 [ss0]: https://github.com/kumavis/node-pterodactyl/raw/master/www/ScreenShot0.png "node-pterodactyl screenshot"
 [ss1]: https://github.com/kumavis/node-pterodactyl/raw/master/www/ScreenShot1.png "node-pterodactyl screenshot"
 [ss2]: https://github.com/kumavis/node-pterodactyl/raw/master/www/ScreenShot2.png "node-pterodactyl screenshot"
+[esprima_example]: http://requirebin.com/?gist=6396884
