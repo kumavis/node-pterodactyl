@@ -2,35 +2,65 @@ node-pterodactyl
 ================
 ![node-pterodactyl][logo]
 
-Fractal stack-over-time Visualizer
+Fractal tree Visualizer
 
 ### wut
 
-By leveraging fractal geometry, it can display an arbitrary amount of information in a finite amount of space.
+Display an arbitrary javascript object.
+By leveraging fractal geometry and vector graphics,
+pterodactyl can display vast amounts of information in a finite amount of space.
 
-### API Proposal
 
-takes in data in this format,
-representing a stack across time / stack history.
-
-Flaw: This contains a lot of repeated data.
+### Examples
 
 ```javascript
 var pterodactyl = require('pterodactyl')
 
-var stackHistory = [
-  [a0],
-  [a0,b0],
-  [a0,b1],
-  [a0,b1,c0],
-  [a0,b2],
-  [a0,b2,c0],
-  [a0,b2,c1],
-  [a1],
-  [a2],
-]
+var obj = {
+  a: 1,
+  b: {
+    d: 3,
+    e: 4,
+  },
+  c: 2,
+}
 
-pterodactyl.draw(stackHistory)
+pterodactyl.drawHash(obj)
 ```
+
+```javascript
+var pterodactyl = require('pterodactyl')
+
+var obj = {
+  a: 1,
+  b: {
+    d: 3,
+    e: 4,
+  },
+  c: 2,
+}
+
+pterodactyl.drawHash({
+  target: obj,
+  x: 500,
+  y: 500,
+})
+```
+
+```
+var pterodactyl = require('pterodactyl')
+var esprima = require('esprima')
+
+var src = "var x = 1 + 2"
+var obj = esprima.parse(src)
+
+ptero.drawHash({
+  target: obj,
+  x: 500,
+  y: 500,
+})
+```
+
+
 
 [logo]: https://github.com/kumavis/node-pterodactyl/raw/master/www/logo.png "node-pterodactyl logo"
