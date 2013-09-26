@@ -12,7 +12,9 @@
   "dependencies": {
     "d3": "~3.3.2",
     "hashish": "0.0.4",
-    "treeify": "~1.0.1"
+    "treeify": "~1.0.1",
+    "smap": "~0.2.0",
+    "es6-map-shim": "~0.2.1"
   },
   "devDependencies": {
     "esprima": "~1.0.4"

@@ -8,13 +8,30 @@ var esprima = require('esprima')
 var src = "var x = 1 + 2"
 var obj = esprima.parse(src)
 
-var obj = [[obj,obj,obj,obj,obj,obj],[obj,obj,obj,obj,obj,obj],[obj,obj,obj,obj,obj,obj],[obj,obj,obj,obj,obj,6]]
+// var obj = [
+//   [obj,obj,obj,obj,obj,obj],
+//   [obj,obj,obj,obj,obj,obj],
+//   [obj,obj,obj,obj,obj,obj],
+//   [obj,obj,obj,obj,obj,obj],
+// ]
 
 // draw syntax tree
-var nodeGraph = pterodactyl.drawHash({
+var hashGraph = pterodactyl.drawHash({
   target: obj,
   x: 500,
   y: 500,
+})
+
+window.z = []
+hashGraph.nodeMap.forEach(function(value,key,mapReference){
+  if (key) {
+    var x = value.x, y = value.y
+    if ( x && y ) {
+      debugger
+      window.z.push({x:x,y:y})
+      console.log('key',key,'x',x,'y',y)
+    }
+  }
 })
 
 // pterodactyl.viewportControl.

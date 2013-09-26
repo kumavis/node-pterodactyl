@@ -1,3 +1,4 @@
+var Map = require('es6-map-shim').Map;
 window.treeify = require('treeify').asTree
 
 //deps
@@ -23,7 +24,9 @@ var RecArc = window.RecArc = module.exports = {
   viewportControl: viewportControl,
 
   drawHash: function(params) {
+    var map = new Map();
     var nodeGraph = this.drawChildren({
+      nodeMap: map,
       x: params.x,
       y: params.y,
       target: params.target,
@@ -48,7 +51,6 @@ var RecArc = window.RecArc = module.exports = {
         // childRadius = (2*zeta*coreDomainRadius)/(2*(1-zeta)),
         childRadius = maxChildRadius
 
-    if (params._children !== undefined)  debugger
     params._children = []
 
     while (index < childKeys.length+1) {
@@ -71,12 +73,16 @@ var RecArc = window.RecArc = module.exports = {
       }
 
       // Draw Label
-      self.drawLabel({
+      var labelParams = {
         x: params.x,
         y: params.y,
         text: params.label,
         size: childRadius/5,
-      })
+      }
+      var label = self.drawLabel(labelParams)
+      // add node to nodeMap
+      var mapTarget = typeof params.target === 'object' ? params.target : {_: params.target}
+      params.nodeMap.set(mapTarget,labelParams)
       
       // Draw Stem
       var stem = {
@@ -125,6 +131,7 @@ var RecArc = window.RecArc = module.exports = {
         newParams.radius = childRadius
         newParams.startAngle = startAngle-pi
         newParams.label = childKey
+        newParams.nodeMap = params.nodeMap
         if (!isObject(child)) newParams.label += ': '+child
         
         // draw child (recursive)
