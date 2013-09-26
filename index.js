@@ -1,3 +1,5 @@
+window.treeify = require('treeify').asTree
+
 //deps
 var d3 = require('d3')
 var copyHash = require('hashish').copy
@@ -13,13 +15,15 @@ function isObject(obj) { return typeof obj === 'object' }
 var vis = d3.select('body').append('svg').attr('id','vizContainer')
                            .append('g').attr('id','viewport')
 
-enableSVGPan(document.getElementById('vizContainer'))
+var viewportControl = enableSVGPan(document.getElementById('vizContainer'))
+
 
 var RecArc = window.RecArc = module.exports = {
 
+  viewportControl: viewportControl,
+
   drawHash: function(params) {
-    this.drawChildren({
-      depth: 0,
+    var nodeGraph = this.drawChildren({
       x: params.x,
       y: params.y,
       target: params.target,
@@ -27,20 +31,25 @@ var RecArc = window.RecArc = module.exports = {
       startAngle: 0,
       label: 'obj',
     })
+    return nodeGraph
   },
 
-  drawChildren: function(params) {(function(){
+  drawChildren: function(params) {return (function(){
     var self = this,
         index = 0,
         childKeys = isObject(params.target) ? Object.keys(params.target) : [],
         sproutCount = childKeys.length+1, //+1 to give space for root
+        offspringSizeRatio = 1/5,
         outerDomainRadius = params.radius,
-        coreDomainRadius = params.radius/3,
+        coreDomainRadius = outerDomainRadius*offspringSizeRatio,
         // zeta = Math.sin(2*pi/sproutCount),
         maxChildRadius = (outerDomainRadius-coreDomainRadius)/2,
         //childRadius = params.radius/3,
         // childRadius = (2*zeta*coreDomainRadius)/(2*(1-zeta)),
         childRadius = maxChildRadius
+
+    if (params._children !== undefined)  debugger
+    params._children = []
 
     while (index < childKeys.length+1) {
       var startAngle = index*(360/sproutCount)*(pi/180)+params.startAngle,
@@ -76,11 +85,11 @@ var RecArc = window.RecArc = module.exports = {
           y: params.y+coreDomainRadius*-Math.cos(startAngle),
         },
         outerPoint: {
-          x: params.x+(coreDomainRadius+childRadius/1.5)*Math.sin(startAngle),
-          y: params.y+(coreDomainRadius+childRadius/1.5)*-Math.cos(startAngle),
+          x: params.x+(coreDomainRadius+childRadius-childRadius*offspringSizeRatio)*Math.sin(startAngle),
+          y: params.y+(coreDomainRadius+childRadius-childRadius*offspringSizeRatio)*-Math.cos(startAngle),
         },
       }
-      self.drawLine({
+      if (index!=0) self.drawLine({
         width: coreDomainRadius/50,
         x1: stem.innerPoint.x,
         y1: stem.innerPoint.y,
@@ -108,6 +117,8 @@ var RecArc = window.RecArc = module.exports = {
             childKey = childKeys[index-1],
             child = params.target[childKey]
 
+        delete newParams._children
+
         newParams.target = child
         newParams.x = childOrigin.x
         newParams.y = childOrigin.y
@@ -115,11 +126,17 @@ var RecArc = window.RecArc = module.exports = {
         newParams.startAngle = startAngle-pi
         newParams.label = childKey
         if (!isObject(child)) newParams.label += ': '+child
-        // draw child
+        
+        // draw child (recursive)
         var childSvg = self.drawChildren( newParams )
+        params._children.push( childSvg )
+
       }
       index++;
     }
+    console.log('drawChildren: end')
+    console.log( self.children )  
+    return params
   }).bind(this)()},
 
   drawLabel: function(params) {
@@ -147,7 +164,7 @@ var RecArc = window.RecArc = module.exports = {
 
   drawCircle: function(params) {
     return this.drawArc({
-      innerRadius: params.radius*0.95,
+      innerRadius: params.radius*0.99,
       outerRadius: params.radius,
       startAngle: 0,
       endAngle: 2*pi,
