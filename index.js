@@ -13,13 +13,14 @@ var pi = Math.PI;
 function isObject(obj) { return typeof obj === 'object' }
 
 // the vizualization container and viewport
-var vis = d3.select('body').append('svg').attr('id','vizContainer')
-                           .append('g').attr('id','viewport')
+var vis = d3.select('body')
+  .append('svg').attr('id','vizContainer').attr("width", window.innerWidth).attr("height", window.innerHeight)
+  .append('g').attr('id','viewport')
 
 var viewportControl = enableSVGPan(document.getElementById('vizContainer'))
 
 
-var RecArc = window.RecArc = module.exports = {
+var Pterodactyl = module.exports = {
 
   viewportControl: viewportControl,
 
@@ -83,7 +84,7 @@ var RecArc = window.RecArc = module.exports = {
       // add node to nodeMap
       var mapTarget = typeof params.target === 'object' ? params.target : {_: params.target}
       params.nodeMap.set(mapTarget,labelParams)
-      
+
       // Draw Stem
       var stem = {
         innerPoint: {
@@ -117,7 +118,7 @@ var RecArc = window.RecArc = module.exports = {
       //   y: params.y,
       // }).style('fill', 'rgb(6,120,155)')
 
-      if (index!=0) {        
+      if (index!=0) {
         // modify params for child
         var newParams = copyHash(params),
             childKey = childKeys[index-1],
@@ -133,7 +134,7 @@ var RecArc = window.RecArc = module.exports = {
         newParams.label = childKey
         newParams.nodeMap = params.nodeMap
         if (!isObject(child)) newParams.label += ': '+child
-        
+
         // draw child (recursive)
         var childSvg = self.drawChildren( newParams )
         params._children.push( childSvg )
@@ -141,8 +142,6 @@ var RecArc = window.RecArc = module.exports = {
       }
       index++;
     }
-    console.log('drawChildren: end')
-    console.log( self.children )  
     return params
   }).bind(this)()},
 
@@ -190,6 +189,10 @@ var RecArc = window.RecArc = module.exports = {
       .attr('d', arc)
       .attr('transform', 'translate('+params.x+','+params.y+')')
     return path
+  },
+
+  getContainer: function() {
+    return document.getElementById('vizContainer')
   },
 
 };
