@@ -33,7 +33,7 @@ var Pterodactyl = module.exports = {
       target: params.target,
       radius: 250,
       startAngle: 0,
-      label: 'obj',
+      label: 'root',
     })
     return nodeGraph
   },
