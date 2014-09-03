@@ -27,7 +27,6 @@ hashGraph.nodeMap.forEach(function(value,key,mapReference){
   if (key) {
     var x = value.x, y = value.y
     if ( x && y ) {
-      debugger
       window.z.push({x:x,y:y})
       console.log('key',key,'x',x,'y',y)
     }
