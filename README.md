@@ -1,6 +1,5 @@
 node-pterodactyl
 ================
-![node-pterodactyl][logo]
 
 ### wut?
 
@@ -46,7 +45,7 @@ pterodactyl.drawHash({
   y: 500,
 })
 ```
-<a class="requirebin-link" target="_blank" href="http://requirebin.com/?gist=6396863"><img src="http://requirebin.com/badge.png"></a>
+<a class="requirebin-link" target="_blank" href="http://requirebin.com/?gist=2a44236ce877d18e3176"><img src="http://requirebin.com/badge.png"></a>
 ![screen shot][ss2]
 
 ##### esprima syntax tree
