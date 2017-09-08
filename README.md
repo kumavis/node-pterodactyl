@@ -1,6 +1,8 @@
 node-pterodactyl
 ================
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/kumavis/node-pterodactyl.svg)](https://greenkeeper.io/)
+
 ### wut?
 
 Pterodactyl is a fractal tree visualizer.
